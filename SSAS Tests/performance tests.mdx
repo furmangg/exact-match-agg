@@ -1,0 +1,66 @@
+/*
+This code sample is from https://github.com/furmangg/exact-match-agg
+and should be run against Azure SQL DW on top of the AdventureWorksDW sample
+*/
+
+--clear cache before each test
+<ClearCache xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+  <Object>
+    <DatabaseID>ExactMatchAgg</DatabaseID>
+  </Object>
+</ClearCache>
+
+--test the slow DISTINCTCOUNT approach
+--18375ms on S4
+--11532ms on S1
+evaluate CALCULATETABLE(
+ SUMMARIZECOLUMNS(
+  'Product'[ProductSubcategoryCode],
+  "Store Day Count", [Store Day Count]
+ ),
+ 'Date'[YtdFlag]=TRUE()
+)
+order by [ProductSubcategoryCode]
+
+--attempted an optimization that sometimes helps on some data models... it didn't help here
+--34453ms on S4
+--39111ms on S1
+evaluate CALCULATETABLE(
+ SUMMARIZECOLUMNS(
+  'Product'[ProductSubcategoryCode],
+  "Store Day Count", CALCULATE(COUNTROWS(SUMMARIZE(Sales, Sales[StoreKey], Sales[DateKey])))
+ ),
+ 'Date'[YtdFlag]=TRUE()
+)
+order by [ProductSubcategoryCode]
+
+--test the optimized exact match agg approach
+--47ms on S4
+--63ms on S1
+evaluate CALCULATETABLE(
+ SUMMARIZECOLUMNS(
+  'Product'[ProductSubcategoryCode],
+  "Store Day Count", [Store Day Count (Optimized)]
+ ),
+ 'Date'[YtdFlag]=TRUE()
+)
+order by [ProductSubcategoryCode]
+
+--test the slow DISTINCTCOUNT approach with a real year over year sales calculations
+--33093ms on S4
+--22001ms on S1
+evaluate 
+ SUMMARIZECOLUMNS(
+  'Product'[ProductSubcategoryCode],
+  "Sales Change", [Sales Amount Per Store Day % Change vs. Prior YTD]
+ )
+
+--test the optimized exact match agg approach with a real year over year sales calculations
+--only the Store Day Count (denominator) is pre-aggregated not the sales amount
+--328ms on S4
+--984ms on S1
+evaluate SUMMARIZECOLUMNS(
+  'Product'[ProductSubcategoryCode],
+  "Sales Change", [Sales Amount Per Store Day % Change vs. Prior YTD (Optimized)]
+ )
+
