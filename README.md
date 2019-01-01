@@ -24,11 +24,11 @@ If you are not interested in creating an Azure SQL DW and creating the tables an
 
 1. Download a .zip of the source code from this repo from the "Clone or download" green button in the top right of the page. Unzip this file.
 
-1. Execute "SQL/01 create tables in Azure DW.sql" in SSMS against the DW
+1. Execute "[SQL/01 create tables in Azure DW.sql](https://raw.githubusercontent.com/furmangg/exact-match-agg/master/SQL/01%20create%20tables%20in%20Azure%20DW.sql)" in SSMS against the DW
 
-1. Execute "SQL/02 create exact match agg tables.sql" in SSMS against the DW
+1. Execute "[SQL/02 create exact match agg tables.sql](https://raw.githubusercontent.com/furmangg/exact-match-agg/master/SQL/02%20create%20exact%20match%20agg%20tables.sql)" in SSMS against the DW
 
-1. Execute "SQL/03 usp_ProductAggSignatureForDateRange.sql" in SSMS against the DW
+1. Execute "[SQL/03 usp_ProductAggSignatureForDateRange.sql](https://raw.githubusercontent.com/furmangg/exact-match-agg/master/SQL/03%20usp_ProductAggSignatureForDateRange.sql)" in SSMS against the DW
 
 1. Create an Azure Analysis Services server. It should be performance tier S1 (must be Standard because of partitioning and needs at least 25GB of RAM). (Alternately you could use an Analysis Services 2017 Tabular server with at least 25GB of free RAM.)
 ![create Azure AS](images/CreateAzureAS.png)
