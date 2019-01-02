@@ -1,6 +1,13 @@
 /*
 This code sample is from https://github.com/furmangg/exact-match-agg
 and should be run against Azure SQL DW on top of the AdventureWorksDW sample
+
+This script simply takes the existing AdventureWorksDW tables and creates a few new tables 
+from it that are fairly large (400 million rows) in order to demonstrate the distinct count 
+performance problem in SSAS.
+
+The only code in this script which is specific to the exact match aggs implementation is 
+the ExponentModProductKey column in vwDimProduct
 */
 create table numbers (
  n int)

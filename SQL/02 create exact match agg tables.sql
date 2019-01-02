@@ -16,6 +16,7 @@ GO
 if object_id('tempdb..#Product') is not null
 	drop table #Product
 
+--create a temp table with the columns which will be factor into which rollups we pre-aggregate
 create table #Product
 with (distribution=round_robin, heap)
 as
@@ -35,6 +36,12 @@ FROM vwDimProduct p;
 if object_id('tempdb..#ProductRollups') is not null
 	drop table #ProductRollups
 
+--Step 1
+--this first pass temp table identifies via the Grouper1 and GroupType columns the rollups which we will pre-aggregate
+--it includes one row per ProductKey for these rollups
+--when a product rollup is defined by a single field like Color it should be included here as an extra union all
+--when a product rollup is defined by multiple fields like ModelName and Color they should be concatenated and included here (as seen in the last part of the union all below)
+--but when a second field such as FinishedGoodFlag can impact all rollups, it should be included as a column for use in step 2 (#ProductAggSignature) below
 create table #ProductRollups
 with (distribution=hash(Grouper1), heap)
 as
@@ -66,6 +73,9 @@ FROM #Product;
 if object_id('tempdb..#ProductAggSignature') is not null
 	drop table #ProductAggSignature
 
+--Step 2
+--this step takes the Step 1 temp table (#ProductRollups) results and then appends filtered versions of those rollups for common additional filters like FinishedGoodsFlag=1
+--see the comments on the individual steps below
 create table #ProductAggSignature
 with (distribution=round_robin, heap)
 as
@@ -80,17 +90,24 @@ as
 	, SumProductKey = sum(ProductKey) OVER (PARTITION BY Grouper1, Grouper2, Grouper3, GroupType)
 	, SumExponentModProductKey = sum((ProductKey*ProductKey*100)%77) OVER (PARTITION BY Grouper1, Grouper2, Grouper3, GroupType)
 	from (
+		--just use the step 1 results and then union filtered versions of those rollups below
 		select ProductKey, Grouper1, null as Grouper2, null as Grouper3, GroupType
 		FROM #ProductRollups
 		union all
+		--if users commonly multi-select filter on the Color colunn to "Black or Grey" then you must pre-aggregate this multi-select filter
+		--this particular Black-Gray multi-select is the only additional multi-select color rollup we pre-aggregate
+		--this allows you to filter any of the common rollups (subcategory, category, etc) by this Black-Grey multi-select filter
 		select ProductKey, Grouper1, 'Greys' as Grouper2, null as Grouper3, GroupType+'-Greys' as GroupType
 		FROM #ProductRollups
 		where Color in ('Black','Grey')
 		union all
+		--users commonly filter the page to just FinishedGoodsFlag=1 while using other common rollups (subcategory, category, etc)
+		--the additional rollups we will pre-aggregate only cover FinishedGoodsFlag=1 not FinishedGoodsFlag=0 in this scenario
 		select ProductKey, Grouper1, cast(FinishedGoodsFlag as varchar) as Grouper2, null as Grouper3, GroupType+'-FinishedGoods' as GroupType
 		FROM #ProductRollups
 		where FinishedGoodsFlag=1
 		union all
+		--allow users to filter to Greys (multi-select filter) and FinishedGoodsFlag=1
 		select ProductKey, Grouper1, 'Greys' as Grouper2, cast(FinishedGoodsFlag as varchar) as Grouper3, GroupType+'-Greys-FinishedGoods' as GroupType
 		FROM #ProductRollups
 		where Color in ('Black','Grey') and FinishedGoodsFlag=1
@@ -108,6 +125,7 @@ from (
 ) x
 */
 
+--truncate and reload this table daily
 truncate table dbo.DimProductAggSignature
 
 insert into dbo.DimProductAggSignature (CountProductKey, MinProductKey, MaxProductKey, SumProductKey, SumExponentModProductKey)
@@ -132,6 +150,9 @@ select * from dbo.DimProductAggSignature
 if object_id('dbo.BridgeProductAggSignature') is not null
 	drop table dbo.BridgeProductAggSignature
 
+--this bridge table lists which ProductKey values are in which ProductAggSignatureKey
+--drop and recreate this table daily
+--it is use in the usp_ProductAggSignatureForDateRange sproc and it is replicated in order to eliminate the broadcast step and improve performance of that sproc
 create table dbo.BridgeProductAggSignature
 with (distribution=REPLICATE, clustered columnstore index)
 as
@@ -153,6 +174,8 @@ create statistics STAT_ProductAggSignatureKey on dbo.BridgeProductAggSignature (
 --warm up the replicated table caching it on each node
 declare @ProductAggSignatureKey int = (select min(ProductAggSignatureKey) from dbo.BridgeProductAggSignature)
 
+
+--drop and recreate the DimDateRange table daily since it changes
 if object_id('dbo.DimDateRange') is not null
 	drop table dbo.DimDateRange
 
