@@ -1,0 +1,1834 @@
+{
+  "name": "SemanticModel",
+  "compatibilityLevel": 1400,
+  "model": {
+    "culture": "en-US",
+    "dataSources": [
+      {
+        "name": "ExactMatchAggDW",
+        "connectionString": "Data Source=yourdwserver.database.windows.net;Persist Security Info=true;User ID=youradminaccount;Initial Catalog=exactmatchaggdw;Packet Size=32767;Provider=SQLNCLI11",
+        "impersonationMode": "impersonateServiceAccount",
+        "annotations": [
+          {
+            "name": "ConnectionEditUISource",
+            "value": "SqlServer"
+          }
+        ]
+      }
+    ],
+    "tables": [
+      {
+        "name": "Date",
+        "columns": [
+          {
+            "name": "DateKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "DateKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "FullDateAlternateKey",
+            "dataType": "dateTime",
+            "sourceColumn": "FullDateAlternateKey",
+            "formatString": "Short Date",
+            "sourceProviderType": "DBDate",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"DateTimeShortDatePattern\" />"
+              }
+            ]
+          },
+          {
+            "name": "DayNumberOfWeek",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "DayNumberOfWeek",
+            "sourceProviderType": "UnsignedTinyInt"
+          },
+          {
+            "name": "DayOfWeek",
+            "dataType": "string",
+            "sourceColumn": "EnglishDayNameOfWeek",
+            "sortByColumn": "DayNumberOfWeek",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "Month",
+            "dataType": "string",
+            "sourceColumn": "EnglishMonthName",
+            "sortByColumn": "MonthNumberOfYear",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "MonthNumberOfYear",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "MonthNumberOfYear",
+            "sourceProviderType": "UnsignedTinyInt"
+          },
+          {
+            "name": "CalendarYear",
+            "dataType": "int64",
+            "sourceColumn": "CalendarYear",
+            "sourceProviderType": "SmallInt"
+          },
+          {
+            "name": "YtdFlag",
+            "dataType": "boolean",
+            "sourceColumn": "YtdFlag"
+          },
+          {
+            "name": "PriorYtdFlag",
+            "dataType": "boolean",
+            "sourceColumn": "PriorYtdFlag"
+          },
+          {
+            "name": "MtdFlag",
+            "dataType": "boolean",
+            "sourceColumn": "MtdFlag"
+          },
+          {
+            "name": "PriorMtdFlag",
+            "dataType": "boolean",
+            "sourceColumn": "PriorMtdFlag"
+          },
+          {
+            "name": "CompletedThreeMonthsFlag",
+            "dataType": "boolean",
+            "sourceColumn": "CompletedThreeMonthsFlag"
+          },
+          {
+            "name": "PriorCompletedThreeMonthsFlag",
+            "dataType": "boolean",
+            "sourceColumn": "PriorCompletedThreeMonthsFlag"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Date",
+            "dataView": "full",
+            "source": {
+              "query": "select * from vwDimDate",
+              "dataSource": "ExactMatchAggDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>select * from vwDimDate</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+              }
+            ]
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Calendar",
+            "levels": [
+              {
+                "name": "CalendarYear",
+                "ordinal": 0,
+                "column": "CalendarYear"
+              },
+              {
+                "name": "Month",
+                "ordinal": 1,
+                "column": "Month"
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": "select * from vwDimDate"
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "DimDate"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dbo"
+          },
+          {
+            "name": "QueryEditorSerialization",
+            "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>select * from vwDimDate</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+          }
+        ]
+      },
+      {
+        "name": "Product",
+        "columns": [
+          {
+            "name": "ProductKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "ProductKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "FinishedGoodsFlag",
+            "dataType": "boolean",
+            "sourceColumn": "FinishedGoodsFlag",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "sourceProviderType": "Boolean"
+          },
+          {
+            "name": "Color",
+            "dataType": "string",
+            "sourceColumn": "Color",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "SafetyStockLevel",
+            "dataType": "int64",
+            "sourceColumn": "SafetyStockLevel",
+            "sourceProviderType": "SmallInt"
+          },
+          {
+            "name": "SizeRange",
+            "dataType": "string",
+            "sourceColumn": "SizeRange",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "ProductLine",
+            "dataType": "string",
+            "sourceColumn": "ProductLine",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "ModelName",
+            "dataType": "string",
+            "sourceColumn": "ModelName",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "ProductCode",
+            "dataType": "string",
+            "sourceColumn": "ProductCode"
+          },
+          {
+            "name": "Product",
+            "dataType": "string",
+            "sourceColumn": "Product"
+          },
+          {
+            "name": "ProductSubcategory",
+            "dataType": "string",
+            "sourceColumn": "ProductSubcategory"
+          },
+          {
+            "name": "ProductSubcategoryCode",
+            "dataType": "int64",
+            "sourceColumn": "ProductSubcategoryCode"
+          },
+          {
+            "name": "ProductCategory",
+            "dataType": "string",
+            "sourceColumn": "ProductCategory"
+          },
+          {
+            "name": "ProductCategoryCode",
+            "dataType": "int64",
+            "sourceColumn": "ProductCategoryCode"
+          },
+          {
+            "name": "ExponentModProductKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "ExponentModProductKey"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Product",
+            "dataView": "full",
+            "source": {
+              "query": " SELECT [dbo].[vwDimProduct].* FROM [dbo].[vwDimProduct] ",
+              "dataSource": "ExactMatchAggDW"
+            },
+            "annotations": [
+              {
+                "name": "TableWidgetSerialization",
+                "value": [
+                  "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"TableWidgetSerialization\"><AnnotationContent><![CDATA[<?xml version=\"1.0\"?>",
+                  "<TableWidgetGridSerialization xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">",
+                  "  <ColumnSuggestedType />",
+                  "  <ColumnFormat />",
+                  "  <ColumnAccuracy />",
+                  "  <ColumnCurrencySymbol />",
+                  "  <ColumnPositivePattern />",
+                  "  <ColumnNegativePattern />",
+                  "  <ColumnWidths>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductKey</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>85</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductCode</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>92</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>Product</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>67</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>FinishedGoodsFlag</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>119</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>Color</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>55</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>SafetyStockLevel</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>113</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>SizeRange</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>80</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductLine</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>86</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ModelName</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>85</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductSubcategory</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>128</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductSubcategoryCode</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>153</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductCategory</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>112</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductCategoryCode</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>137</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ExponentModProductKey</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>151</int>",
+                  "      </value>",
+                  "    </item>",
+                  "  </ColumnWidths>",
+                  "  <ColumnDisplayIndex>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductKey</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>0</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductCode</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>1</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>Product</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>2</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>FinishedGoodsFlag</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>3</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>Color</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>4</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>SafetyStockLevel</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>5</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>SizeRange</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>6</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductLine</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>7</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ModelName</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>8</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductSubcategory</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>9</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductSubcategoryCode</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>10</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductCategory</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>11</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductCategoryCode</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>12</int>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ExponentModProductKey</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <int>13</int>",
+                  "      </value>",
+                  "    </item>",
+                  "  </ColumnDisplayIndex>",
+                  "  <ColumnFrozen />",
+                  "  <ColumnChecked>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductCode</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <boolean>true</boolean>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>Product</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <boolean>true</boolean>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductSubcategory</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <boolean>true</boolean>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductSubcategoryCode</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <boolean>true</boolean>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductCategory</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <boolean>true</boolean>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductCategoryCode</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <boolean>true</boolean>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductKey</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <boolean>true</boolean>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>FinishedGoodsFlag</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <boolean>true</boolean>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>Color</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <boolean>true</boolean>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>SafetyStockLevel</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <boolean>true</boolean>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>SizeRange</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <boolean>true</boolean>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ProductLine</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <boolean>true</boolean>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ModelName</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <boolean>true</boolean>",
+                  "      </value>",
+                  "    </item>",
+                  "    <item>",
+                  "      <key>",
+                  "        <string>ExponentModProductKey</string>",
+                  "      </key>",
+                  "      <value>",
+                  "        <boolean>true</boolean>",
+                  "      </value>",
+                  "    </item>",
+                  "  </ColumnChecked>",
+                  "  <ColumnFilter />",
+                  "  <SelectionFilter />",
+                  "  <FilterParameters />",
+                  "  <IsSortDescending>false</IsSortDescending>",
+                  "</TableWidgetGridSerialization>]]></AnnotationContent></Gemini>"
+                ]
+              }
+            ]
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Categories",
+            "levels": [
+              {
+                "name": "ProductCategory",
+                "ordinal": 0,
+                "column": "ProductCategory"
+              },
+              {
+                "name": "ProductSubcategory",
+                "ordinal": 1,
+                "column": "ProductSubcategory"
+              }
+            ]
+          },
+          {
+            "name": "ModelColors",
+            "levels": [
+              {
+                "name": "Color",
+                "ordinal": 0,
+                "column": "Color"
+              },
+              {
+                "name": "ModelName",
+                "ordinal": 1,
+                "column": "ModelName"
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " SELECT [dbo].[vwDimProduct].* FROM [dbo].[vwDimProduct] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "vwDimProduct"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dbo"
+          },
+          {
+            "name": "TableWidgetSerialization",
+            "value": [
+              "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"TableWidgetSerialization\"><AnnotationContent><![CDATA[<?xml version=\"1.0\"?>",
+              "<TableWidgetGridSerialization xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">",
+              "  <ColumnSuggestedType />",
+              "  <ColumnFormat />",
+              "  <ColumnAccuracy />",
+              "  <ColumnCurrencySymbol />",
+              "  <ColumnPositivePattern />",
+              "  <ColumnNegativePattern />",
+              "  <ColumnWidths>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductKey</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>85</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductCode</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>92</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>Product</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>67</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>FinishedGoodsFlag</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>119</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>Color</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>55</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>SafetyStockLevel</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>113</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>SizeRange</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>80</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductLine</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>86</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ModelName</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>85</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductSubcategory</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>128</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductSubcategoryCode</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>153</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductCategory</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>112</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductCategoryCode</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>137</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ExponentModProductKey</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>151</int>",
+              "      </value>",
+              "    </item>",
+              "  </ColumnWidths>",
+              "  <ColumnDisplayIndex>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductKey</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>0</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductCode</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>1</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>Product</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>2</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>FinishedGoodsFlag</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>3</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>Color</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>4</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>SafetyStockLevel</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>5</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>SizeRange</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>6</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductLine</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>7</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ModelName</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>8</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductSubcategory</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>9</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductSubcategoryCode</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>10</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductCategory</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>11</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductCategoryCode</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>12</int>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ExponentModProductKey</string>",
+              "      </key>",
+              "      <value>",
+              "        <int>13</int>",
+              "      </value>",
+              "    </item>",
+              "  </ColumnDisplayIndex>",
+              "  <ColumnFrozen />",
+              "  <ColumnChecked>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductCode</string>",
+              "      </key>",
+              "      <value>",
+              "        <boolean>true</boolean>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>Product</string>",
+              "      </key>",
+              "      <value>",
+              "        <boolean>true</boolean>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductSubcategory</string>",
+              "      </key>",
+              "      <value>",
+              "        <boolean>true</boolean>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductSubcategoryCode</string>",
+              "      </key>",
+              "      <value>",
+              "        <boolean>true</boolean>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductCategory</string>",
+              "      </key>",
+              "      <value>",
+              "        <boolean>true</boolean>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductCategoryCode</string>",
+              "      </key>",
+              "      <value>",
+              "        <boolean>true</boolean>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductKey</string>",
+              "      </key>",
+              "      <value>",
+              "        <boolean>true</boolean>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>FinishedGoodsFlag</string>",
+              "      </key>",
+              "      <value>",
+              "        <boolean>true</boolean>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>Color</string>",
+              "      </key>",
+              "      <value>",
+              "        <boolean>true</boolean>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>SafetyStockLevel</string>",
+              "      </key>",
+              "      <value>",
+              "        <boolean>true</boolean>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>SizeRange</string>",
+              "      </key>",
+              "      <value>",
+              "        <boolean>true</boolean>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ProductLine</string>",
+              "      </key>",
+              "      <value>",
+              "        <boolean>true</boolean>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ModelName</string>",
+              "      </key>",
+              "      <value>",
+              "        <boolean>true</boolean>",
+              "      </value>",
+              "    </item>",
+              "    <item>",
+              "      <key>",
+              "        <string>ExponentModProductKey</string>",
+              "      </key>",
+              "      <value>",
+              "        <boolean>true</boolean>",
+              "      </value>",
+              "    </item>",
+              "  </ColumnChecked>",
+              "  <ColumnFilter />",
+              "  <SelectionFilter />",
+              "  <FilterParameters />",
+              "  <IsSortDescending>false</IsSortDescending>",
+              "</TableWidgetGridSerialization>]]></AnnotationContent></Gemini>"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Sales Territory",
+        "columns": [
+          {
+            "name": "SalesTerritoryKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "SalesTerritoryKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "SalesTerritoryAlternateKey",
+            "dataType": "int64",
+            "sourceColumn": "SalesTerritoryAlternateKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "SalesTerritoryRegion",
+            "dataType": "string",
+            "sourceColumn": "SalesTerritoryRegion",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "SalesTerritoryCountry",
+            "dataType": "string",
+            "sourceColumn": "SalesTerritoryCountry",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "SalesTerritoryGroup",
+            "dataType": "string",
+            "sourceColumn": "SalesTerritoryGroup",
+            "sourceProviderType": "WChar"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Sales Territory",
+            "dataView": "full",
+            "source": {
+              "query": " SELECT [dbo].[DimSalesTerritory].* FROM [dbo].[DimSalesTerritory] ",
+              "dataSource": "ExactMatchAggDW"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " SELECT [dbo].[DimSalesTerritory].* FROM [dbo].[DimSalesTerritory] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "DimSalesTerritory"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dbo"
+          }
+        ]
+      },
+      {
+        "name": "Store",
+        "columns": [
+          {
+            "name": "StoreKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "StoreKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "StoreNumber",
+            "dataType": "string",
+            "sourceColumn": "StoreNumber",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "Country",
+            "dataType": "string",
+            "sourceColumn": "Country",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "Zone",
+            "dataType": "string",
+            "sourceColumn": "Zone",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "District",
+            "dataType": "string",
+            "sourceColumn": "District",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "SameStoreSalesFlag",
+            "dataType": "boolean",
+            "sourceColumn": "SameStoreSalesFlag",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\"",
+            "sourceProviderType": "Boolean"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Store",
+            "dataView": "full",
+            "source": {
+              "query": " SELECT [dbo].[DimStore].* FROM [dbo].[DimStore] ",
+              "dataSource": "ExactMatchAggDW"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " SELECT [dbo].[DimStore].* FROM [dbo].[DimStore] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "DimStore"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dbo"
+          }
+        ]
+      },
+      {
+        "name": "Sales",
+        "columns": [
+          {
+            "name": "ProductKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "ProductKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "DateKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "DateKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "StoreKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "StoreKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "SalesTerritoryKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "SalesTerritoryKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "OrderQuantity",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "OrderQuantity",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "ExtendedAmount",
+            "dataType": "double",
+            "isHidden": true,
+            "sourceColumn": "ExtendedAmount",
+            "sourceProviderType": "Decimal"
+          },
+          {
+            "name": "StoreDate",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "StoreDate"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Sales",
+            "source": {
+              "query": "select * from FactSales",
+              "dataSource": "ExactMatchAggDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>select * from FactSales</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+              }
+            ]
+          }
+        ],
+        "measures": [
+          {
+            "name": "Store Day Count",
+            "expression": " DISTINCTCOUNT(Sales[StoreDate])",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Sales Quantity",
+            "expression": "SUM([OrderQuantity])",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Sales Amount",
+            "expression": "SUM(Sales[ExtendedAmount])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Sales Amount Per Store Day",
+            "expression": "DIVIDE([Sales Amount],[Store Day Count])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Sales Amount Per Store Day YTD",
+            "expression": "CALCULATE([Sales Amount Per Store Day],'Date'[YtdFlag]=TRUE())",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Sales Amount Per Store Day Prior YTD",
+            "expression": "CALCULATE([Sales Amount Per Store Day],'Date'[PriorYtdFlag]=TRUE())",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Sales Amount Per Store Day vs. Prior YTD",
+            "expression": "[Sales Amount Per Store Day YTD] - [Sales Amount Per Store Day Prior YTD]",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Sales Amount Per Store Day % Change vs. Prior YTD",
+            "expression": [
+              " ",
+              "VAR CY = [Sales Amount Per Store Day YTD]",
+              "VAR PY = [Sales Amount Per Store Day Prior YTD]",
+              "RETURN DIVIDE(CY-PY,PY)"
+            ],
+            "formatString": "0.00%;-0.00%;0.00%"
+          },
+          {
+            "name": "Sales Amount Per Store Day (Optimized)",
+            "expression": "DIVIDE([Sales Amount],[Store Day Count (Optimized)])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Sales Amount Per Store Day YTD (Optimized)",
+            "expression": "CALCULATE([Sales Amount Per Store Day (Optimized)],'Date'[YtdFlag]=TRUE())",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Sales Amount Per Store Day Prior YTD (Optimized)",
+            "expression": "CALCULATE([Sales Amount Per Store Day (Optimized)],'Date'[PriorYtdFlag]=TRUE())",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Sales Amount Per Store Day vs. Prior YTD (Optimized)",
+            "expression": "[Sales Amount Per Store Day YTD (Optimized)] - [Sales Amount Per Store Day Prior YTD (Optimized)]",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Sales Amount Per Store Day % Change vs. Prior YTD (Optimized)",
+            "expression": [
+              " ",
+              "VAR CY = [Sales Amount Per Store Day YTD (Optimized)]",
+              "VAR PY = [Sales Amount Per Store Day Prior YTD (Optimized)]",
+              "RETURN DIVIDE(CY-PY,PY)"
+            ],
+            "formatString": "0.00%;-0.00%;0.00%"
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": [
+              "/* this table properties query only controls what gets loaded into the workspace database... see the partition query for the full query */",
+              "select top 100 *",
+              "from FactSales"
+            ]
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "Sales"
+          },
+          {
+            "name": "QueryEditorSerialization",
+            "value": [
+              "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>/* this table properties query only controls what gets loaded into the workspace database... see the partition query for the full query */",
+              "select top 100 *",
+              "from FactSales</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "DateRange",
+        "isHidden": true,
+        "columns": [
+          {
+            "name": "DateRangeKey",
+            "dataType": "int64",
+            "isUnique": true,
+            "sourceColumn": "DateRangeKey",
+            "sourceProviderType": "BigInt"
+          },
+          {
+            "name": "MinDateKey",
+            "dataType": "int64",
+            "sourceColumn": "MinDateKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "MaxDateKey",
+            "dataType": "int64",
+            "sourceColumn": "MaxDateKey",
+            "sourceProviderType": "Integer"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "DateRange",
+            "dataView": "full",
+            "source": {
+              "query": " SELECT [dbo].[DimDateRange].* FROM [dbo].[DimDateRange] ",
+              "dataSource": "ExactMatchAggDW"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " SELECT [dbo].[DimDateRange].* FROM [dbo].[DimDateRange] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "DimDateRange"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dbo"
+          }
+        ]
+      },
+      {
+        "name": "ProductAggSignature",
+        "isHidden": true,
+        "columns": [
+          {
+            "name": "ProductAggSignatureKey",
+            "dataType": "int64",
+            "isUnique": true,
+            "sourceColumn": "ProductAggSignatureKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "CountProductKey",
+            "dataType": "int64",
+            "sourceColumn": "CountProductKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "MinProductKey",
+            "dataType": "int64",
+            "sourceColumn": "MinProductKey",
+            "sourceProviderType": "BigInt"
+          },
+          {
+            "name": "MaxProductKey",
+            "dataType": "int64",
+            "sourceColumn": "MaxProductKey",
+            "sourceProviderType": "BigInt"
+          },
+          {
+            "name": "SumProductKey",
+            "dataType": "int64",
+            "sourceColumn": "SumProductKey",
+            "sourceProviderType": "BigInt"
+          },
+          {
+            "name": "SumExponentModProductKey",
+            "dataType": "int64",
+            "sourceColumn": "SumExponentModProductKey",
+            "sourceProviderType": "BigInt"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "ProductAggSignature",
+            "dataView": "full",
+            "source": {
+              "query": " SELECT [dbo].[DimProductAggSignature].* FROM [dbo].[DimProductAggSignature] ",
+              "dataSource": "ExactMatchAggDW"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " SELECT [dbo].[DimProductAggSignature].* FROM [dbo].[DimProductAggSignature] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "DimProductAggSignature"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "dbo"
+          }
+        ]
+      },
+      {
+        "name": "StoreDayExactMatchAgg",
+        "isHidden": true,
+        "columns": [
+          {
+            "name": "StoreKey",
+            "dataType": "int64",
+            "sourceColumn": "StoreKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "DateRangeKey",
+            "dataType": "int64",
+            "sourceColumn": "DateRangeKey",
+            "sourceProviderType": "BigInt"
+          },
+          {
+            "name": "ProductAggSignatureKey",
+            "dataType": "int64",
+            "sourceColumn": "ProductAggSignatureKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "StoreDayCount",
+            "dataType": "int64",
+            "sourceColumn": "StoreDayCount",
+            "sourceProviderType": "Integer"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "YTD",
+            "source": {
+              "query": "exec usp_ProductAggSignatureForDateRange @DateRangeName = 'YTD'",
+              "dataSource": "ExactMatchAggDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>exec usp_ProductAggSignatureForDateRange @DateRangeName = 'YTD'</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+              }
+            ]
+          },
+          {
+            "name": "PriorYTD",
+            "mode": "import",
+            "source": {
+              "query": "exec usp_ProductAggSignatureForDateRange @DateRangeName = 'PriorYTD'",
+              "dataSource": "ExactMatchAggDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>exec usp_ProductAggSignatureForDateRange @DateRangeName = 'PriorYTD'</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+              }
+            ]
+          },
+          {
+            "name": "MTD",
+            "mode": "import",
+            "source": {
+              "query": "exec usp_ProductAggSignatureForDateRange @DateRangeName = 'MTD'",
+              "dataSource": "ExactMatchAggDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>exec usp_ProductAggSignatureForDateRange @DateRangeName = 'MTD'</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+              }
+            ]
+          },
+          {
+            "name": "PriorMTD",
+            "mode": "import",
+            "source": {
+              "query": "exec usp_ProductAggSignatureForDateRange @DateRangeName = 'PriorMTD'",
+              "dataSource": "ExactMatchAggDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>exec usp_ProductAggSignatureForDateRange @DateRangeName = 'PriorMTD'</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+              }
+            ]
+          },
+          {
+            "name": "CompletedThreeMonths-Total",
+            "mode": "import",
+            "source": {
+              "query": "exec usp_ProductAggSignatureForDateRange @DateRangeName = 'CompletedThreeMonths-Total'",
+              "dataSource": "ExactMatchAggDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>exec usp_ProductAggSignatureForDateRange @DateRangeName = 'CompletedThreeMonths-Total'</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+              }
+            ]
+          },
+          {
+            "name": "PriorCompletedThreeMonths-Total",
+            "mode": "import",
+            "source": {
+              "query": "exec usp_ProductAggSignatureForDateRange @DateRangeName = 'PriorCompletedThreeMonths-Total'",
+              "dataSource": "ExactMatchAggDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>exec usp_ProductAggSignatureForDateRange @DateRangeName = 'PriorCompletedThreeMonths-Total'</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+              }
+            ]
+          },
+          {
+            "name": "CompletedThreeMonths-1",
+            "mode": "import",
+            "source": {
+              "query": "exec usp_ProductAggSignatureForDateRange @DateRangeName = 'CompletedThreeMonths-1'",
+              "dataSource": "ExactMatchAggDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>exec usp_ProductAggSignatureForDateRange @DateRangeName = 'CompletedThreeMonths-1'</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+              }
+            ]
+          },
+          {
+            "name": "CompletedThreeMonths-2",
+            "mode": "import",
+            "source": {
+              "query": "exec usp_ProductAggSignatureForDateRange @DateRangeName = 'CompletedThreeMonths-2'",
+              "dataSource": "ExactMatchAggDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>exec usp_ProductAggSignatureForDateRange @DateRangeName = 'CompletedThreeMonths-2'</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+              }
+            ]
+          },
+          {
+            "name": "CompletedThreeMonths-3",
+            "mode": "import",
+            "source": {
+              "query": "exec usp_ProductAggSignatureForDateRange @DateRangeName = 'CompletedThreeMonths-3'",
+              "dataSource": "ExactMatchAggDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>exec usp_ProductAggSignatureForDateRange @DateRangeName = 'CompletedThreeMonths-3'</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+              }
+            ]
+          },
+          {
+            "name": "PriorCompletedThreeMonths-1",
+            "mode": "import",
+            "source": {
+              "query": "exec usp_ProductAggSignatureForDateRange @DateRangeName = 'PriorCompletedThreeMonths-1'",
+              "dataSource": "ExactMatchAggDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>exec usp_ProductAggSignatureForDateRange @DateRangeName = 'PriorCompletedThreeMonths-1'</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+              }
+            ]
+          },
+          {
+            "name": "PriorCompletedThreeMonths-2",
+            "mode": "import",
+            "source": {
+              "query": "exec usp_ProductAggSignatureForDateRange @DateRangeName = 'PriorCompletedThreeMonths-2'",
+              "dataSource": "ExactMatchAggDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>exec usp_ProductAggSignatureForDateRange @DateRangeName = 'PriorCompletedThreeMonths-2'</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+              }
+            ]
+          },
+          {
+            "name": "PriorCompletedThreeMonths-3",
+            "mode": "import",
+            "source": {
+              "query": "exec usp_ProductAggSignatureForDateRange @DateRangeName = 'PriorCompletedThreeMonths-3'",
+              "dataSource": "ExactMatchAggDW"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>exec usp_ProductAggSignatureForDateRange @DateRangeName = 'PriorCompletedThreeMonths-3'</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+              }
+            ]
+          }
+        ],
+        "measures": [
+          {
+            "name": "Store Day Count (Optimized)",
+            "expression": [
+              "",
+              "VAR DateRangeKey =",
+              "    LOOKUPVALUE (",
+              "        DateRange[DateRangeKey],",
+              "        DateRange[MinDateKey], MIN ( 'Date'[DateKey] ),",
+              "        DateRange[MaxDateKey], MAX ( 'Date'[DateKey] ),",
+              "        DateRange[DateRangeKey], MAX ( 'Date'[DateKey] ) * 1000 + COUNTROWS ( 'Date' )",
+              "    )",
+              "RETURN",
+              "    IF (",
+              "        NOT ( ISBLANK ( DateRangeKey ) ),",
+              "        VAR ProductAggSignatureKey =",
+              "            LOOKUPVALUE (",
+              "                ProductAggSignature[ProductAggSignatureKey],",
+              "                ProductAggSignature[CountProductKey], COUNTROWS ( 'Product' ),",
+              "                ProductAggSignature[MinProductKey], MIN ( 'Product'[ProductKey] ),",
+              "                ProductAggSignature[MaxProductKey], MAX ( 'Product'[ProductKey] ),",
+              "                ProductAggSignature[SumProductKey], SUM ( Product[ProductKey] ),",
+              "                ProductAggSignature[SumExponentModProductKey], SUM ( 'Product'[ExponentModProductKey] )",
+              "            )",
+              "        RETURN",
+              "            IF (",
+              "                NOT ( ISBLANK ( ProductAggSignatureKey ) ),",
+              "                CALCULATE (",
+              "                    SUM ( StoreDayExactMatchAgg[StoreDayCount] ),",
+              "                    StoreDayExactMatchAgg[DateRangeKey] = DateRangeKey,",
+              "                    StoreDayExactMatchAgg[ProductAggSignatureKey] = ProductAggSignatureKey",
+              "                ),",
+              "                [Store Day Count]",
+              "            ),",
+              "        [Store Day Count]",
+              "    )"
+            ]
+          },
+          {
+            "name": "Have Exact Pre-aggregation",
+            "expression": [
+              "",
+              "VAR DateRangeKey =",
+              "    LOOKUPVALUE (",
+              "        DateRange[DateRangeKey],",
+              "        DateRange[MinDateKey], MIN ( 'Date'[DateKey] ),",
+              "        DateRange[MaxDateKey], MAX ( 'Date'[DateKey] ),",
+              "        DateRange[DateRangeKey], MAX ( 'Date'[DateKey] ) * 1000 + COUNTROWS ( 'Date' )",
+              "    )",
+              "RETURN",
+              "    IF (",
+              "        NOT ( ISBLANK ( DateRangeKey ) ),",
+              "        VAR ProductAggSignatureKey =",
+              "            LOOKUPVALUE (",
+              "                ProductAggSignature[ProductAggSignatureKey],",
+              "                ProductAggSignature[CountProductKey], COUNTROWS ( 'Product' ),",
+              "                ProductAggSignature[MinProductKey], MIN ( 'Product'[ProductKey] ),",
+              "                ProductAggSignature[MaxProductKey], MAX ( 'Product'[ProductKey] ),",
+              "                ProductAggSignature[SumProductKey], SUM ( Product[ProductKey] ),",
+              "                ProductAggSignature[SumExponentModProductKey], SUM ( 'Product'[ExponentModProductKey] )",
+              "            )",
+              "        RETURN",
+              "            IF (",
+              "                NOT ( ISBLANK ( ProductAggSignatureKey ) ),",
+              "                TRUE(),",
+              "                FALSE()",
+              "            ),",
+              "        FALSE()",
+              "    )"
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": "select -1 as StoreKey, cast(-1 as bigint) as DateRangeKey, -1 as ProductAggSignatureKey, 0 as StoreDayCount where 1=0"
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "StoreDayExactMatchAgg"
+          },
+          {
+            "name": "QueryEditorSerialization",
+            "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>select -1 as StoreKey, cast(-1 as bigint) as DateRangeKey, -1 as ProductAggSignatureKey, 0 as StoreDayCount where 1=0</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "6fb336b7-326c-452e-ae67-1663237157ac",
+        "fromTable": "Sales",
+        "fromColumn": "ProductKey",
+        "toTable": "Product",
+        "toColumn": "ProductKey"
+      },
+      {
+        "name": "3618e9ee-acd0-49ed-9fe7-49f25479a112",
+        "fromTable": "Sales",
+        "fromColumn": "SalesTerritoryKey",
+        "toTable": "Sales Territory",
+        "toColumn": "SalesTerritoryKey"
+      },
+      {
+        "name": "c5e1f9c1-e6ab-4cbc-a541-4db0ee5f4258",
+        "fromTable": "Sales",
+        "fromColumn": "StoreKey",
+        "toTable": "Store",
+        "toColumn": "StoreKey"
+      },
+      {
+        "name": "a3e8479d-6af7-4bc7-a12b-54b222b9967b",
+        "fromTable": "Sales",
+        "fromColumn": "DateKey",
+        "toTable": "Date",
+        "toColumn": "DateKey"
+      },
+      {
+        "name": "bfa4c5e8-a425-4aae-a506-ad2539112303",
+        "fromTable": "StoreDayExactMatchAgg",
+        "fromColumn": "StoreKey",
+        "toTable": "Store",
+        "toColumn": "StoreKey"
+      },
+      {
+        "name": "3c8e6bfb-4997-4063-9c80-e1462073d818",
+        "fromTable": "StoreDayExactMatchAgg",
+        "fromColumn": "ProductAggSignatureKey",
+        "toTable": "ProductAggSignature",
+        "toColumn": "ProductAggSignatureKey"
+      },
+      {
+        "name": "0287befc-b6cb-4141-85bd-43c213478837",
+        "fromTable": "StoreDayExactMatchAgg",
+        "fromColumn": "DateRangeKey",
+        "toTable": "DateRange",
+        "toColumn": "DateRangeKey"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "ClientCompatibilityLevel",
+        "value": "500"
+      }
+    ]
+  },
+  "id": "SemanticModel"
+}

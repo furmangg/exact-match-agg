@@ -12,7 +12,7 @@ If you are not interested in creating an Azure SQL DW and creating the tables an
 1. Create an Azure Analysis Services server. It should be performance tier S1 (must be Standard because of partitioning and needs at least 25GB of RAM). And you need to specify the backup storage account:
 ![create Azure AS](images/CreateAzureAS.png)
 
-1. Download the ExactMatchAgg.abf backup file upload it to your Azure storage account which you have configured your Azure Analysis Services server to use for backups.
+1. Download the [ExactMatchAgg.Azure.AS.Backup.zip](https://github.com/furmangg/exact-match-agg/releases/download/ssas-backup/ExactMatchAgg.Azure.AS.Backup.zip) file, unzip it, then upload ExactMatchAgg.abf to your Azure storage account which you have configured your Azure Analysis Services server to use for backups.
 
 1. [Restore](https://docs.microsoft.com/en-us/azure/analysis-services/analysis-services-backup#restore) the backup to create a new ExactMatchAgg database in Azure Analysis Services.
 
@@ -22,7 +22,7 @@ If you are not interested in creating an Azure SQL DW and creating the tables an
 1. Create a new Azure SQL DW setting the source as the AdventureWorksDW sample. Choose Gen2 DW200c performance level.
    ![create DW in Azure portal](images/CreateDW.png)
 
-1. Download a .zip of the source code from this repo from the "Clone or download" green button in the top right of the page. Unzip this file.
+1. Download a [.zip of the source code](https://github.com/furmangg/exact-match-agg/archive/master.zip). Unzip this file.
 
 1. Execute "[SQL/01 create tables in Azure DW.sql](https://raw.githubusercontent.com/furmangg/exact-match-agg/master/SQL/01%20create%20tables%20in%20Azure%20DW.sql)" in SSMS against the DW
 
@@ -38,3 +38,15 @@ If you are not interested in creating an Azure SQL DW and creating the tables an
 1. In the Tabular Model Explorer pane, expand the Data Sources folder and double click ExactMatchAggDW to edit the connection string. Set your connection string to point to the DW you created above and click Save.
 
 1. Go to the Solution Explorer pane, right click on the ExactMatchAgg node at the top (the project, not the solution) and choose Properties. Set Processing Option to Full, set Server to the SSAS server you wish to deploy it to. If you're deploying to Azure Analysis Services, then the server name should be in the format asazure://&lt;region&gt;.asazure.windows.net/&lt;yourserver&gt; and click OK then right click on the ExactMatchAgg project node and choose Deploy.
+
+
+### Testing Query Performance
+
+1. Open the "[SSAS Tests/performance tests.msdax](https://raw.githubusercontent.com/furmangg/exact-match-agg/master/SSAS%20Tests/performance%20tests.msdax)" file in SSMS, run the ClearCache XMLA statement before each query in the file to test the performance.
+
+
+### Questions, Problems or Improvements?
+
+If you have issues or questions create an issue [here](https://github.com/furmangg/exact-match-agg/issues).
+
+If you have ideas on how to improve the solution to make it perform better please start a thread on the [Issues tab](https://github.com/furmangg/exact-match-agg/issues).
