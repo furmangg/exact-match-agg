@@ -2,8 +2,9 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-*.suo
 .vs/
-/.vs/ExactMatchAgg README Project/v14/.suo
-/.vs/config/applicationhost.config 
-/ExactMatchAgg README Project.sln
+.vs/ExactMatchAgg README Project/v14/.suo
+.vs/config/applicationhost.config
+ExactMatchAgg README Project.sln
+.suo
+applicationhost.config
