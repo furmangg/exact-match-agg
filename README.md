@@ -1,7 +1,5 @@
 # Exact Match Agg Sample
 
-This Github repo is under construction. Stay tuned.
-
 Greg Galloway [blogged](http://www.artisconsulting.com/blogs/greggalloway/2019/1/4/how-to-make-dax-distinct-counts-100x-faster-with-exact-match-aggs) about a way to improve SSAS Tabular distinct count performance by an order of magnitude by creating exact match aggregations. This Github repo contains the code samples mentioned along with instructions to deploy the sample solution to Azure SQL DW and Azure Analysis Services.
 
 
